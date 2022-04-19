@@ -301,7 +301,7 @@ class Message extends StatelessWidget {
     );
 
     return Container(
-      alignment: _currentUserIsAuthor
+      alignment: _currentUserIsAuthor && message is! types.CustomMessage
           ? AlignmentDirectional.centerEnd
           : AlignmentDirectional.centerStart,
       margin: EdgeInsetsDirectional.only(
@@ -313,10 +313,13 @@ class Message extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (!_currentUserIsAuthor && showUserAvatars) _avatarBuilder(),
+          if (!_currentUserIsAuthor &&
+              showUserAvatars &&
+              message is! types.CustomMessage)
+            _avatarBuilder(),
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: messageWidth.toDouble(),
+              maxWidth: messageWidth.toDouble() - 40,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -348,7 +351,7 @@ class Message extends StatelessWidget {
               ],
             ),
           ),
-          if (_currentUserIsAuthor)
+          if (_currentUserIsAuthor && message is! types.CustomMessage)
             Padding(
               padding: InheritedChatTheme.of(context).theme.statusIconPadding,
               child: showStatus

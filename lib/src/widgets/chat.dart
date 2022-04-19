@@ -390,10 +390,12 @@ class _ChatState extends State<Chat> {
     } else {
       final map = object as Map<String, Object>;
       final message = map['message']! as types.Message;
-      final _messageWidth =
-          widget.showUserAvatars && message.author.id != widget.user.id
-              ? min(constraints.maxWidth * 0.72, 440).floor()
-              : min(constraints.maxWidth * 0.78, 440).floor();
+      final _messageWidth = message is types.CustomMessage
+          ? constraints.maxWidth.floor()
+          : 40 +
+              (widget.showUserAvatars && message.author.id != widget.user.id
+                  ? min(constraints.maxWidth * 0.82, 440).floor()
+                  : min(constraints.maxWidth * 0.88, 440).floor());
 
       return Message(
         key: ValueKey(message.id),
